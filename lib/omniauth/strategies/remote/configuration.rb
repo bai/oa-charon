@@ -2,18 +2,12 @@ module OmniAuth
   module Strategies
     class Remote
       class Configuration
-        DEFAULT_LOGIN_URL = "%s/login"
-        DEFAULT_SERVICE_VALIDATE_URL = "%s/serviceValidate"
+        SERVICE_LOGIN_URL = "%s/serviceLogin"
+        SERVICE_VALIDATE_URL = "%s/serviceValidate"
 
         # @param [Hash] params configuration options
         # @option params [String, nil] :server the server root URL; probably something like
         #         `http://auth.mycompany.com` or `http://mycompany.com/auth`; optional.
-        # @option params [String, nil] :login_url (:server + '/login') the URL to which to
-        #         redirect for logins; options if `:server` is specified,
-        #         required otherwise.
-        # @option params [String, nil] :service_validate_url (:server + '/serviceValidate') the
-        #         URL to use for validating service tickets; optional if `:server` is
-        #         specified, requred otherwise.
         def initialize(params)
           parse_params params
         end
@@ -22,7 +16,7 @@ module OmniAuth
         #
         # @param [String] service the service (a.k.a. return-to) URL
         # 
-        # @return [String] a URL like `http://auth.mycompany.com/login?service=...`
+        # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?service=...`
         def login_url(service)
           append_service @login_url, service
         end
@@ -40,18 +34,10 @@ module OmniAuth
 
         private
           def parse_params(params)
-            if params[:server].nil? && params[:login_url].nil?
-              raise ArgumentError.new(":server or :login_url MUST be provided")
-            end
-            @login_url   = params[:login_url]
-            @login_url ||= DEFAULT_LOGIN_URL % params[:server]
+            @login_url = SERVICE_LOGIN_URL % params[:server]
             validate_is_url 'login URL', @login_url
 
-            if params[:server].nil? && params[:service_validate_url].nil?
-              raise ArgumentError.new(":server or :service_validate_url MUST be provided")
-            end
-            @service_validate_url   = params[:service_validate_url]
-            @service_validate_url ||= DEFAULT_SERVICE_VALIDATE_URL % params[:server]
+            @service_validate_url = SERVICE_VALIDATE_URL % params[:server]
             validate_is_url 'service-validate URL', @service_validate_url
           end
 
