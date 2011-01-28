@@ -24,7 +24,7 @@ module OmniAuth
         end
 
         def callback_phase
-          ticket = request.params["ticket"]
+          ticket = request.params["t"]
           return fail!(:no_ticket) unless ticket
           validator = ServiceTicketValidator.new(@configuration, callback_url, ticket)
           @user_info = validator.user_info
