@@ -8,6 +8,8 @@ module OmniAuth
         # @param [Hash] params configuration options
         # @option params [String, nil] :server the server root URL; probably something like
         #         `http://auth.mycompany.com` or `http://mycompany.com/auth`; optional.
+        # @option params [String, nil] :service name of this service, i.e.
+        #         `pipeline` or `partnerships`; optional.
         def initialize(params)
           parse_params params
         end
@@ -17,8 +19,8 @@ module OmniAuth
         # @param [String] service the service (a.k.a. return-to) URL
         # 
         # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?s=...`
-        def login_url(service)
-          append_service @login_url, service
+        def login_url
+          append_service @login_url, params[:service]
         end
 
         # Build a service-validation URL from +service+ and +ticket+.
@@ -28,7 +30,7 @@ module OmniAuth
         #
         # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
-          url = append_service @service_validate_url, service
+          url = append_service @service_validate_url, params[:service]
           url << '&t=' << Rack::Utils.escape(ticket)
         end
 

@@ -16,7 +16,7 @@ module OmniAuth
           [ 
             302,
             {
-              "Location" => @configuration.login_url(callback_url),
+              "Location" => @configuration.login_url(service),
               "Content-Type" => "text/plain"
             },
             [ "You are being redirected for sign-in." ]
