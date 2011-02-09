@@ -1,4 +1,4 @@
-require "nokogiri"
+require "yajl"
 
 module OmniAuth
   module Strategies
