@@ -20,7 +20,7 @@ module OmniAuth
         # 
         # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?s=...`
         def login_url
-          append_service @login_url, params[:service]
+          append_service @login_url
         end
 
         # Build a service-validation URL from +service+ and +ticket+.
@@ -30,7 +30,7 @@ module OmniAuth
         #
         # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
-          url = append_service @service_validate_url, params[:service]
+          url = append_service @service_validate_url
           url << '&t=' << Rack::Utils.escape(ticket)
         end
 
@@ -41,6 +41,8 @@ module OmniAuth
 
             @service_validate_url = SERVICE_VALIDATE_URL % params[:server]
             validate_is_url 'service-validate URL', @service_validate_url
+
+            @service = params[:service]
           end
 
           IS_NOT_URL_ERROR_MESSAGE = "%s is not a valid URL"
@@ -56,11 +58,11 @@ module OmniAuth
           # @param [String] service the service (a.k.a. return-to) URL.
           #
           # @return [String] the new joined URL.
-          def append_service(base, service)
+          def append_service(base)
             result = base.dup
             result << (result.include?('?') ? '&' : '?')
             result << 's='
-            result << Rack::Utils.escape(service)
+            result << Rack::Utils.escape(@service)
           end
       end
     end

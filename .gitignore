@@ -30,7 +30,6 @@ TAGS
 .idea
 .bundle
 vendor/bundle
-Gemfile.lock
 .rspec
 public/stylesheets
 .yardoc

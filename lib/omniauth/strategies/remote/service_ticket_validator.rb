@@ -14,53 +14,27 @@ module OmniAuth
         # @param [String] ticket the service ticket to validate
         def initialize(configuration, return_to_url, ticket)
           @uri = URI.parse(configuration.service_validate_url(return_to_url, ticket))
+          @parser = Yajl::Parser.new
         end
 
         # Request validation of the ticket from the server's
         # serviceValidate function.
         #
-        # Swallows all XML parsing errors (and returns +nil+ in those cases).
+        # Swallows all JSON parsing errors (and returns +nil+ in those cases).
         #
         # @return [Hash, nil] a user information hash if the response is valid; +nil+ otherwise.
         #
         # @raise any connection errors encountered.
         def user_info
-          parse_user_info(find_authentication_success(get_service_response_body))
+          service_response_body = get_service_response_body
+
+          return nil if service_response_body.nil? || service_response_body == ''
+          
+          @parser.parse(service_response_body)
         end
 
         private
-          # Turns an `<cas:authenticationSuccess>` node into a Hash;
-          # returns nil if given nil
-          def parse_user_info(node)
-            return nil if node.nil?
-            node.children.inject({}) do |hash, child|
-              unless child.kind_of?(Nokogiri::XML::Text) ||
-                     child.name == 'cas:proxies' ||
-                     child.name == 'proxies'
-                hash[child.name.sub(/^cas:/, '')] = child.content
-              end
-              hash
-            end
-          end
-        
-          # Finds an `<cas:authenticationSuccess>` node in
-          # a `<cas:serviceResponse>` body if present; returns nil
-          # if the passed body is nil or if there is no such node.
-          def find_authentication_success(body)
-            return nil if body.nil? || body == ''
-            begin
-              doc = Nokogiri::XML(body)
-              begin
-                doc.xpath('/cas:serviceResponse/cas:authenticationSuccess')
-              rescue Nokogiri::XML::XPath::SyntaxError
-                doc.xpath('/serviceResponse/authenticationSuccess')
-              end
-            rescue Nokogiri::XML::XPath::SyntaxError
-              nil
-            end
-          end
-        
-          # Retrieves the `<cas:serviceResponse>` XML from the server
+          # Retrieves the `serviceResponse` JSON from the server.
           def get_service_response_body
             result = ''
             http = Net::HTTP.new(@uri.host, @uri.port)

@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem "rack"
-gem "nokogiri"
+gem "yajl-ruby", :require => "yajl"
 gem "omniauth"
 
 group :development do
