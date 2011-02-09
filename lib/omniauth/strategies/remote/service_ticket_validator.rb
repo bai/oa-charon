@@ -1,4 +1,5 @@
 require "yajl"
+require "net/http"
 
 module OmniAuth
   module Strategies
