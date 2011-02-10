@@ -2,9 +2,6 @@ module OmniAuth
   module Strategies
     class Remote
       class Configuration
-        SERVICE_LOGIN_URL = "%s/serviceLogin"
-        SERVICE_VALIDATE_URL = "%s/serviceValidate"
-
         # @param [Hash] params configuration options
         # @option params [String, nil] :server the server root URL; probably something like
         #         `http://auth.mycompany.com` or `http://mycompany.com/auth`; optional.
@@ -18,7 +15,7 @@ module OmniAuth
         #
         # @param [String] service the service (a.k.a. return-to) URL
         # 
-        # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?s=...`
+        # @return [String] a URL like `http://mycompany.com/auth/serviceLogin?s=...`
         def login_url
           append_service @login_url
         end
@@ -28,7 +25,7 @@ module OmniAuth
         # @param [String] service the service (a.k.a. return-to) URL
         # @param [String] ticket the ticket to validate
         #
-        # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
+        # @return [String] a URL like `http://mycompany.com/auth/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
           url = append_service @service_validate_url
           url << '&t=' << Rack::Utils.escape(ticket)
@@ -36,20 +33,9 @@ module OmniAuth
 
         private
           def parse_params(params)
-            @login_url = SERVICE_LOGIN_URL % params[:server]
-            validate_is_url 'login URL', @login_url
-
-            @service_validate_url = SERVICE_VALIDATE_URL % params[:server]
-            validate_is_url 'service-validate URL', @service_validate_url
-
+            @login_url = "%s/serviceLogin" % params[:server]
+            @service_validate_url = "%s/serviceValidate" % params[:server]
             @service = params[:service]
-          end
-
-          IS_NOT_URL_ERROR_MESSAGE = "%s is not a valid URL"
-
-          def validate_is_url(name, possibly_a_url)
-            url = URI.parse(possibly_a_url) rescue nil
-            raise ArgumentError.new(IS_NOT_URL_ERROR_MESSAGE % name) unless url.kind_of?(URI::HTTP)
           end
 
           # Adds +service+ as an URL-escaped parameter to +base+.

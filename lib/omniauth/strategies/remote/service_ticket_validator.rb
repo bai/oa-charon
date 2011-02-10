@@ -11,10 +11,10 @@ module OmniAuth
         # +return_to+ URL, and a +ticket+.
         #
         # @param [OmniAuth::Strategies::Remote::Configuration] configuration server configuration
-        # @param [String] return_to_url the URL of this client service
+        # @param [String] service the name of this client service
         # @param [String] ticket the service ticket to validate
-        def initialize(configuration, return_to_url, ticket)
-          @uri = URI.parse(configuration.service_validate_url(return_to_url, ticket))
+        def initialize(configuration, service, ticket)
+          @uri = URI.parse(configuration.service_validate_url(service, ticket))
           @parser = Yajl::Parser.new
         end
 
