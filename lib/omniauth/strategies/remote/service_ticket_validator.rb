@@ -31,7 +31,7 @@ module OmniAuth
 
           return nil if service_response_body.nil? || service_response_body == ''
           
-          @parser.parse(service_response_body)
+          @parser.parse(service_response_body)["data"]
         end
 
         private
@@ -45,6 +45,7 @@ module OmniAuth
               result = response.body
             end
             result
+            #raise result.inspect
           end
       end
     end

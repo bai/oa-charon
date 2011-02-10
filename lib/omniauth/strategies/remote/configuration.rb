@@ -2,6 +2,9 @@ module OmniAuth
   module Strategies
     class Remote
       class Configuration
+        SERVICE_LOGIN_URL = "%s/serviceLogin"
+        SERVICE_VALIDATE_URL = "%s/serviceValidate"
+
         # @param [Hash] params configuration options
         # @option params [String, nil] :server the server root URL; probably something like
         #         `http://auth.mycompany.com` or `http://mycompany.com/auth`; optional.
@@ -15,7 +18,7 @@ module OmniAuth
         #
         # @param [String] service the service (a.k.a. return-to) URL
         # 
-        # @return [String] a URL like `http://mycompany.com/auth/serviceLogin?s=...`
+        # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?s=...`
         def login_url
           append_service @login_url
         end
@@ -25,7 +28,7 @@ module OmniAuth
         # @param [String] service the service (a.k.a. return-to) URL
         # @param [String] ticket the ticket to validate
         #
-        # @return [String] a URL like `http://mycompany.com/auth/serviceValidate?s=...&t=...`
+        # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
           url = append_service @service_validate_url
           url << '&t=' << Rack::Utils.escape(ticket)
@@ -33,8 +36,8 @@ module OmniAuth
 
         private
           def parse_params(params)
-            @login_url = "%s/serviceLogin" % params[:server]
-            @service_validate_url = "%s/serviceValidate" % params[:server]
+            @login_url = SERVICE_LOGIN_URL % params[:server]
+            @service_validate_url = SERVICE_VALIDATE_URL % params[:server]
             @service = params[:service]
           end
 

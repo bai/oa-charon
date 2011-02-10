@@ -34,7 +34,7 @@ module OmniAuth
 
         def auth_hash
           OmniAuth::Utils.deep_merge(super, {
-            "uid" => @user_info.delete("user"),
+            "uid" => @user_info.delete("username"),
             "extra" => @user_info
           })
         end
