@@ -12,12 +12,21 @@ Gem::Specification.new do |s|
   s.date = %q{2011-02-21}
   s.description = %q{OmniAuth strategy for authentication against Charon.}
   s.email = %q{beawesomeinstead@yahoo.com}
+  s.extra_rdoc_files = [
+    "README.markdown"
+  ]
   s.files = [
     ".document",
     "Gemfile",
     "Gemfile.lock",
+    "README.markdown",
     "Rakefile",
     "VERSION",
+    "lib/omniauth/charon.rb",
+    "lib/omniauth/strategies/charon.rb",
+    "lib/omniauth/strategies/charon/configuration.rb",
+    "lib/omniauth/strategies/charon/service_ticket_validator.rb",
+    "oa-charon.gemspec",
     "test/helper.rb"
   ]
   s.homepage = %q{http://github.com/bai/oa-charon}
