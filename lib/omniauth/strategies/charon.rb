@@ -1,19 +1,19 @@
 module OmniAuth
   module Strategies
-    class Remote
+    class Charon
       include OmniAuth::Strategy
-      
-      autoload :Configuration, "omniauth/strategies/remote/configuration"
-      autoload :ServiceTicketValidator, "omniauth/strategies/remote/service_ticket_validator"
-      
+
+      autoload :Configuration, "omniauth/strategies/charon/configuration"
+      autoload :ServiceTicketValidator, "omniauth/strategies/charon/service_ticket_validator"
+
       def initialize(app, options = {}, &block)
-        super(app, options.delete(:name) || :remote, options, &block)
-        @configuration = OmniAuth::Strategies::Remote::Configuration.new(options)
+        super(app, options.delete(:name) || :charon, options, &block)
+        @configuration = OmniAuth::Strategies::Charon::Configuration.new(options)
       end
-      
+
       protected
         def request_phase
-          [ 
+          [
             302,
             {
               "Location" => @configuration.login_url,
@@ -25,10 +25,10 @@ module OmniAuth
 
         def callback_phase
           ticket = request.params["t"]
-          return fail!(:no_ticket) unless ticket
+          return fail!(:no_ticket, 'No ticket') unless ticket
           validator = ServiceTicketValidator.new(@configuration, callback_url, ticket)
           @user_info = validator.user_info
-          return fail!(:invalid_ticket) if @user_info.nil? || @user_info.empty?
+          return fail!(:invalid_ticket, 'Invalid ticket') if @user_info.nil? || @user_info.empty?
           super
         end
 

@@ -12,11 +12,11 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "oa-remote"
-  gem.homepage = "http://github.com/bai/oa-remote"
+  gem.name = "oa-charon"
+  gem.homepage = "http://github.com/bai/oa-charon"
   gem.license = "MIT"
-  gem.summary = %Q{Remote authentication strategy for OmniAuth.}
-  gem.description = %Q{Remote authentication strategy for OmniAuth.}
+  gem.summary = %Q{OmniAuth strategy for authentication against Charon.}
+  gem.description = %Q{OmniAuth strategy for authentication against Charon.}
   gem.email = "beawesomeinstead@yahoo.com"
   gem.authors = ["beawesomeinstead"]
 end

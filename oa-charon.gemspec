@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{oa-remote}
-  s.version = "0.0.1"
+  s.name = %q{oa-charon}
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["beawesomeinstead"]
-  s.date = %q{2011-02-09}
-  s.description = %q{Remote authentication strategy for OmniAuth.}
+  s.date = %q{2011-02-21}
+  s.description = %q{OmniAuth strategy for authentication against Charon.}
   s.email = %q{beawesomeinstead@yahoo.com}
   s.files = [
     ".document",
@@ -18,20 +18,13 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "Rakefile",
     "VERSION",
-    "lib/omniauth/remote.rb",
-    "lib/omniauth/strategies/remote.rb",
-    "lib/omniauth/strategies/remote/configuration.rb",
-    "lib/omniauth/strategies/remote/service_ticket_validator.rb",
-    "oa-remote.gemspec",
-    "test/fixtures/failure.xml",
-    "test/fixtures/success.xml",
     "test/helper.rb"
   ]
-  s.homepage = %q{http://github.com/bai/oa-remote}
+  s.homepage = %q{http://github.com/bai/oa-charon}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
-  s.summary = %q{Remote authentication strategy for OmniAuth.}
+  s.rubygems_version = %q{1.5.2}
+  s.summary = %q{OmniAuth strategy for authentication against Charon.}
   s.test_files = [
     "test/helper.rb"
   ]

@@ -1,6 +1,6 @@
 module OmniAuth
   module Strategies
-    class Remote
+    class Charon
       class Configuration
         SERVICE_LOGIN_URL = "%s/serviceLogin"
         SERVICE_VALIDATE_URL = "%s/serviceValidate"
@@ -30,7 +30,8 @@ module OmniAuth
         #
         # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
-          url = append_service @service_validate_url
+          service = service.sub(/[?&]ticket=[^?&]+/, '')
+          url = append_service(@service_validate_url, service)
           url << '&t=' << Rack::Utils.escape(ticket)
         end
 

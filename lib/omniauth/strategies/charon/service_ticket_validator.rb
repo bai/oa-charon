@@ -3,14 +3,14 @@ require "net/http"
 
 module OmniAuth
   module Strategies
-    class Remote
-      class ServiceTicketValidator        
+    class Charon
+      class ServiceTicketValidator
         VALIDATION_REQUEST_HEADERS = { "Accept" => "*/*" }
 
         # Build a validator from a +configuration+, a
         # +return_to+ URL, and a +ticket+.
         #
-        # @param [OmniAuth::Strategies::Remote::Configuration] configuration server configuration
+        # @param [OmniAuth::Strategies::Charon::Configuration] configuration server configuration
         # @param [String] service the name of this client service
         # @param [String] ticket the service ticket to validate
         def initialize(configuration, service, ticket)
@@ -30,7 +30,7 @@ module OmniAuth
           service_response_body = get_service_response_body
 
           return nil if service_response_body.nil? || service_response_body == ''
-          
+
           @parser.parse(service_response_body)["data"]
         end
 
@@ -45,7 +45,6 @@ module OmniAuth
               result = response.body
             end
             result
-            #raise result.inspect
           end
       end
     end
