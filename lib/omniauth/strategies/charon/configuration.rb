@@ -17,7 +17,7 @@ module OmniAuth
         # Build a login URL from +service+.
         #
         # @param [String] service the service (a.k.a. return-to) URL
-        # 
+        #
         # @return [String] a URL like `http://auth.mycompany.com/serviceLogin?s=...`
         def login_url
           append_service @login_url
@@ -31,8 +31,8 @@ module OmniAuth
         # @return [String] a URL like `http://auth.mycompany.com/serviceValidate?s=...&t=...`
         def service_validate_url(service, ticket)
           service = service.sub(/[?&]ticket=[^?&]+/, '')
-          url = append_service(@service_validate_url, service)
-          url << '&t=' << Rack::Utils.escape(ticket)
+          url = append_service(@service_validate_url)
+          url << '&ticket=' << Rack::Utils.escape(ticket)
         end
 
         private
@@ -51,7 +51,7 @@ module OmniAuth
           def append_service(base)
             result = base.dup
             result << (result.include?('?') ? '&' : '?')
-            result << 's='
+            result << 'service='
             result << Rack::Utils.escape(@service)
           end
       end
